@@ -21,5 +21,5 @@ const binarySearch = (arr, target) => {
   return -1;
 };
 
-const result = binarySearch(sortedArr, 28);
+const result = binarySearch(sortedArr, 15);
 console.log(result);
