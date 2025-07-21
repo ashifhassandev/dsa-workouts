@@ -1,156 +1,156 @@
 class TreeNode {
-	constructor(value) {
-		this.value = value;
-		this.left = null;
-		this.right = null;
-	}
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
 }
 
 class BinaryTree {
-	constructor() {
-		this.root = null;
-	}
+  constructor() {
+    this.root = null;
+  }
 
-	insertLevelOrder(value) {
-		const newNode = new TreeNode(value);
+  insertLevelOrder(value) {
+    const newNode = new TreeNode(value);
 
-		if (!this.root) {
-			this.root = newNode;
-			return;
-		}
+    if (!this.root) {
+      this.root = newNode;
+      return;
+    }
 
-		const queue = [this.root];
+    const queue = [this.root];
 
-		while (queue.length > 0) {
-			const current = queue.shift();
+    while (queue.length > 0) {
+      const current = queue.shift();
 
-			if (!current.left) {
-				current.left = newNode;
-				return;
-			} else {
-				queue.push(current.left);
-			}
+      if (!current.left) {
+        current.left = newNode;
+        return;
+      } else {
+        queue.push(current.left);
+      }
 
-			if (!current.right) {
-				current.right = newNode;
-				return;
-			} else {
-				queue.push(current.right);
-			}
-		}
-	}
+      if (!current.right) {
+        current.right = newNode;
+        return;
+      } else {
+        queue.push(current.right);
+      }
+    }
+  }
 
-	preOrderTraversal(node = this.root) {
-		if (!node) return;
+  preOrderTraversal(node = this.root) {
+    if (!node) return;
 
-		console.log(node.value);
-		this.preOrderTraversal(node.left);
-		this.preOrderTraversal(node.right);
-	}
+    console.log(node.value);
+    this.preOrderTraversal(node.left);
+    this.preOrderTraversal(node.right);
+  }
 
-	inOrderTraversal(node = this.root) {
-		if (!node) return;
+  inOrderTraversal(node = this.root) {
+    if (!node) return;
 
-		this.inOrderTraversal(node.left);
-		console.log(node.value);
-		this.inOrderTraversal(node.right);
-	}
+    this.inOrderTraversal(node.left);
+    console.log(node.value);
+    this.inOrderTraversal(node.right);
+  }
 
-	postOrderTraversal(node = this.root) {
-		if (!node) return;
+  postOrderTraversal(node = this.root) {
+    if (!node) return;
 
-		this.postOrderTraversal(node.left);
-		this.postOrderTraversal(node.right);
-		console.log(node.value);
-	}
+    this.postOrderTraversal(node.left);
+    this.postOrderTraversal(node.right);
+    console.log(node.value);
+  }
 
-	levelOrderTraversal() {
-		if (!this.root) return;
+  levelOrderTraversal() {
+    if (!this.root) return;
 
-		const queue = [this.root];
+    const queue = [this.root];
 
-		while (queue.length > 0) {
-			const current = queue.shift();
-			console.log(current.value);
-			
-			if (current.left) queue.push(current.left);
-			if (current.right) queue.push(current.right);
-		}
-	}
+    while (queue.length > 0) {
+      const current = queue.shift();
+      console.log(current.value);
 
-	searchValue(value) {
-		if (!this.root) return false;
+      if (current.left) queue.push(current.left);
+      if (current.right) queue.push(current.right);
+    }
+  }
 
-		const queue = [this.root];
+  searchValue(value) {
+    if (!this.root) return false;
 
-		while (queue.length > 0) {
-			const current = queue.shift();
-			
-			if (current.value === value) return true;
+    const queue = [this.root];
 
-			if (current.left) queue.push(current.left);
-			if (current.right) queue.push(current.right);
-		}
+    while (queue.length > 0) {
+      const current = queue.shift();
 
-		return false;
-	}
+      if (current.value === value) return true;
 
-	getHeight(node = this.root) {
-		if (!node) return 0;
+      if (current.left) queue.push(current.left);
+      if (current.right) queue.push(current.right);
+    }
 
-		return 1 + Math.max(this.getHeight(node.left), this.getHeight(node.right));
-	}
+    return false;
+  }
 
-	countNodes(node = this.root) {
-		if (!node) return 0;
+  getHeight(node = this.root) {
+    if (!node) return 0;
 
-		return 1 + this.countNodes(node.left) + this.countNodes(node.right);
-	}
+    return 1 + Math.max(this.getHeight(node.left), this.getHeight(node.right));
+  }
 
-	countLeafNodes(node = this.root) {
-		if (!node) return 0;
-		if (!node.left && !node.right) return 1;
-		return this.countLeafNodes(node.left) + this.countLeafNodes(node.right);
-	}
+  countNodes(node = this.root) {
+    if (!node) return 0;
 
-	deleteNode(value) {
-		if (!this.root) return null;
+    return 1 + this.countNodes(node.left) + this.countNodes(node.right);
+  }
 
-		let queue = [this.root];
-		let nodeTodelete = null;
-		let lastNode = null;
-		let parentOfLastNode = null;
+  countLeafNodes(node = this.root) {
+    if (!node) return 0;
+    if (!node.left && !node.right) return 1;
+    return this.countLeafNodes(node.left) + this.countLeafNodes(node.right);
+  }
 
-		while (queue.length > 0) {
-			let node = queue.shift();
+  deleteNode(value) {
+    if (!this.root) return null;
 
-			if (node.value === value) nodeTodelete = node;
+    let queue = [this.root];
+    let nodeTodelete = null;
+    let lastNode = null;
+    let parentOfLastNode = null;
 
-			if (node.left) {
-				parentOfLastNode = node;
-				queue.push(node.left);
-			}
+    while (queue.length > 0) {
+      let node = queue.shift();
 
-			if (node.right) {
-				parentOfLastNode = node;
-				queue.push(node.right);
-			}
+      if (node.value === value) nodeTodelete = node;
 
-			lastNode = node;
-		}
+      if (node.left) {
+        parentOfLastNode = node;
+        queue.push(node.left);
+      }
 
-		if (nodeTodelete && lastNode) {
-			nodeTodelete.value = lastNode.value;
+      if (node.right) {
+        parentOfLastNode = node;
+        queue.push(node.right);
+      }
 
-			if (parentOfLastNode.left === lastNode) {
-				parentOfLastNode.left = null;
-			}
+      lastNode = node;
+    }
 
-			if (parentOfLastNode.right === lastNode) {
-				parentOfLastNode.right = null;
-			}
-		}
-	}
+    if (nodeTodelete && lastNode) {
+      nodeTodelete.value = lastNode.value;
+
+      if (parentOfLastNode.left === lastNode) {
+        parentOfLastNode.left = null;
+      }
+
+      if (parentOfLastNode.right === lastNode) {
+        parentOfLastNode.right = null;
+      }
+    }
+  }
 }
 
 const binaryTree = new BinaryTree();
