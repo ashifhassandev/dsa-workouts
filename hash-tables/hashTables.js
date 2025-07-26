@@ -1,152 +1,102 @@
-// 1. Basic Hash Table with Separate Chaining:
-
-class HashTables {
-    constructor(size) {
-        this.table = Array.from({ length: size }, () => []);
-        this.size = size;
-    }
-
-    hash(key) {
-        let hashValue = 0;
-        for (let i = 0; i  < key.length; i++) {
-            hashValue += key.charCodeAt(i);
-        }
-
-        return hashValue % this.size;
-    }
-
-    set(key, value) {
-        const index = this.hash(key);
-        for (let pair of this.table[index]) {
-            if (pair[0] === key) {
-                pair[1] = value;
-                return;
-            }
-        }
-
-        this.table[index].push([key, value]);
-    }
-
-    get(key) {
-        const index = this.hash(key);
-        for (let pair of this.table[index]) {
-            if (pair[0] === key) {
-                return pair[1];
-            }
-        }
-
-        return undefined;
-    }
-
-    delete(key) {
-        const index = this.hash(key);
-        return this.table[index].filter(pair => pair[0] !== key);
-    }
-
-    display() {
-        console.log(this.table);
-    }
-};
-
-const hashTable = new HashTables(10);
-
-hashTable.set("name", "Ashif");
-hashTable.set("age", 28);
-hashTable.set("location", "Kuzhivelipady");
-
-console.log(hashTable.get("location"));
-
-
-// 2. Detecting Duplicate Elements Using a Hash Table:
-
-const array = [2, 5, 6, 6, 7, 8, 7, 7, 9, 13, 5];
-
-const findDuplicates = (arr) => {
-    const seen = new Set();
-    const duplicates = [];
-
-    for (let i of arr) {
-        if (seen.has(i) && !(duplicates.includes(i))) {
-            duplicates.push(i);
-        } else {
-            seen.add(i);
-        }
-    }
-
-    return duplicates;
-};
-
-console.log(findDuplicates(array));
-
-
-// 3. Implementing Open Addressing with Linear Probing:
-
 class HashTable {
-    constructor(size) {
-        this.table = new Array(size).fill(null);
-        this.size = size;
-    }
+	constructor(size) {
+		this.table = new Array(size);
+		this.size = size;
+		this.count = 0;
+	}
 
-    hash(key) {
-        let hashValue = 0;
-        for (let i = 0; i < key.length; i++) {
-            hashValue += key.charCodeAt(i);
-        }
+	hash(key) {
+		let hash = 0;
+		const PRIME = 31;
 
-        return hashValue % this.size;
-    }
+		for (let i = 0; i < key.length; i++) {
+			hash = (hash * PRIME + key.charCodeAt(i)) % this.size;
+		}
 
-    set(key, value) {
-        let index = this.hash(key);
-        while (this.table[index] !== null && this.table[index][0] !== key) {
-            index = (index + 1) % this.size;
-        }
+		return hash;
+	}
 
-        this.table[index] = [key, value];
-    }
+	set(key, value) {
+		const index = this.hash(key);
 
-    get(key) {
-        let index = this.hash(key);
-        let start = index;
+		if (!this.table[index]) this.table[index] = [];
 
-        while (this.table[index] !== null) {
-            if (this.table[index][0] === key) {
-                return this.table[index][1];
-            }
+		for (const pair of this.table[index]) {
+			if (pair[0] === key) {
+				pair[1] = value;
+				return;
+			}
+		}
 
-            index = (index + 1) % this.size;
-            if (index === start) break;
-        }
+		this.table[index].push([key, value]);
+		this.count++;
 
-        return undefined;
-    }
+		if ((this.count / this.size) > 0.7) this.resize();
+	}
 
-    delete(key) {
-        let index = this.hash(key);
-        let start = index;
+	get(key) {
+		const index = this.hash(key);
+		const bucket = this.table[index];
 
-        while (this.table[index] !== null) {
-            if (this.table[index][0] === key) {
-                this.table[index] = null;
-            }
+		if (bucket) {
+			for (const pair of bucket) {
+				if (pair[0] === key) return pair[1];
+			}
+		}
 
-            index = (index + 1) % this.size;
-            if (index === start) break;
-        }
-    }
+		return undefined;
+	}
 
-    display() {
-        console.log(this.table);
-    }
-};
+	remove(key) {
+		const index = this.hash(key);
+		const bucket = this.table[index];
 
-const hashTable1 = new HashTable(5);
+		if (bucket) {
+			for (let i = 0; i < bucket.length; i++) {
+				if (bucket[i][0] === key) {
+					bucket.splice(i, 1);
+					this.count--;
+					return true;
+				}
+			}
+		}
 
-hashTable1.set("name", "Ashif");
-hashTable1.set("Age", 28);
-hashTable1.set("location", "Kuzhivelipady");
+		return false;
+	}
 
-console.log(hashTable1.get("location"));
-hashTable1.delete("location");
+	display() {
+		for (let i = 0; i < this.size; i++) {
+			if (this.table[i]) console.log(i, this.table[i]);
+		}
+	}
 
-hashTable1.display();
+	resize() {
+		const oldTable = this.table;
+		this.size *= 2;
+		this.table = new Array(this.size);
+		this.count = 0;
+
+		for (const bucket of oldTable) {
+			if (bucket) {
+				for (const [key, value] of bucket) {
+					this.set(key, value);
+				}
+			}
+		}
+	}
+}
+
+const hashtable = new HashTable(20);
+
+hashtable.set("ashif123", { name: "Ashif", age: 29, location: "Ernakulam" });
+hashtable.set("salman123", { name: "Salman", age: 22, location: "Malappuram" });
+hashtable.set("safana123", { name: "Safana", age: 28, location: "Kannur" });
+hashtable.set("safana123", { name: "Safana", age: 29, location: "Kannur" });
+
+hashtable.display();
+
+console.log(hashtable.get("ashif123"));
+
+hashtable.remove("salman123");
+
+hashtable.display();
