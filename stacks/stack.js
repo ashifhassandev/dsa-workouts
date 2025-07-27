@@ -24,6 +24,7 @@ const reverseStack = (stack) => {
 
 console.log(reverseStack(stack1));
 
+
 // Balanced Parentheses
 
 const string = "({[]})()";
@@ -48,6 +49,8 @@ const checkBalancedPair = (str) => {
 };
 
 console.log(checkBalancedPair(string));
+
+// Stack implementation
 
 class Stack {
   constructor() {
