@@ -1,105 +1,105 @@
-// 1. Reverse a Stack:
+// Reverse a stack (recursion)
 
-const stack1 = [1, 2 ,3 ,4, 5];
+const stack1 = [1, 2, 3, 4, 5];
 
 const insertAtBottom = (stack, element) => {
-    if (stack.length === 0) {
-        stack.push(element);
-    } else {
-        const top = stack.pop();
-        insertAtBottom(stack, element);
-        stack.push(top);
-    }
+  if (stack.length === 0) {
+    stack.push(element);
+  } else {
+    const top = stack.pop();
+    insertAtBottom(stack, element);
+    stack.push(top);
+  }
 };
 
 const reverseStack = (stack) => {
-    if (stack.length > 0) {
-        const top = stack.pop();
-        reverseStack(stack);
-        insertAtBottom(stack, top);
-    }
-    
-    return stack;
+  if (stack.length > 0) {
+    const top = stack.pop();
+    reverseStack(stack);
+    insertAtBottom(stack, top);
+  }
+
+  return stack;
 };
 
 console.log(reverseStack(stack1));
 
-
-// 2. Balanced Parentheses:
+// Balanced Parentheses
 
 const string = "({[]})()";
 
-const isBalancePair = (str) => {
-    const stack = [];
-    const map = {
-        '(': ')',
-        '{': '}',
-        '[': ']',
+const checkBalancedPair = (str) => {
+  const stack = [];
+  const map = {
+    "{": "}",
+    "[": "]",
+    "(": ")",
+  };
+
+  for (let char of str) {
+    if (map[char]) {
+      stack.push(char);
+    } else {
+      if (stack.length === 0 || map[stack.pop()] !== char) return false;
     }
-    
-    for (let char of str) {
-        if (map[char]) {
-            stack.push(char);
-        } else {
-            if (stack.length === 0 || map[stack.pop()] !== char) {
-                return false;
-            }
-        }
-    }
-    
-    return stack.length === 0;
+  }
+
+  return stack.length === 0;
 };
 
-console.log(isBalancePair(string));
+console.log(checkBalancedPair(string));
 
+class Stack {
+  constructor() {
+    this.items = [];
+  }
 
- // 3. Design a stack that, in addition to push and pop, supports a getMin operation that returns the smallest element in the stack in constant time:
+  isEmpty() {
+    return this.items.length === 0;
+  }
 
- class Stack {
-    constructor() {
-        this.stack = [];
-        this.minStack = [];
-    }
+  push(item) {
+    this.items.push(item);
+  }
 
-    push(value) {
-        this.stack.push(value);
-        if (this.minStack.length === 0 || value <= this.minStack[this.minStack.length - 1]) {
-            this.minStack.push(value);
-        }
-    }
+  pop() {
+    if (this.isEmpty()) return "Cannot pop from an empty stack.";
 
-    pop() {
-        const popped = this.stack.pop();
-        if (popped === this.minStack[this.minStack.length - 1]) {
-            this.minStack.pop();
-        }
+    return this.items.pop();
+  }
 
-        return popped;
-    }
+  peek() {
+    if (this.isEmpty()) return "Stack is empty.";
 
-    display() {
-        console.log('Stack:', this.stack);
-    }
+    return this.items[this.items.length - 1];
+  }
 
-    getMin() {
-        if (this.stack.length === 0) {
-            return 'Stack is empty.';
-        }  else {
-            return this.minStack[this.minStack.length - 1];
-        }
-    }
-};
+  getSize() {
+    return this.items.length;
+  }
+
+  print() {
+    console.log(this.items);
+  }
+}
 
 const stack = new Stack();
 
-stack.push(10);
-stack.push(20);
-stack.push(30);
-stack.push(40);
+console.log(stack.pop());
+
+stack.push(3);
 stack.push(5);
+stack.push(7);
+stack.push(9);
 
-stack.display();
+stack.print();
 
-console.log('Popped:', stack.pop());
+console.log(stack.peek());
 
-console.log('MinStack:', stack.getMin());
+console.log(stack.getSize());
+
+console.log(stack.pop());
+
+stack.print();
+
+console.log(stack.peek());
