@@ -1,170 +1,99 @@
-// 1. Insert and Search Words:
+// Trie implementation
 
 class TrieNode {
-    constructor() {
-        this.children = {};
-        this.endOfWord = false;
-    }
+  constructor() {
+    this.children = {};
+    this.endOfWord = false;
+  }
 }
 
 class Trie {
-    constructor() {
-        this.root = new TrieNode();
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  insert(word) {
+    let node = this.root;
+
+    for (const char of word) {
+      if (!node.children[char]) {
+        node.children[char] = new TrieNode();
+      }
+
+      node = node.children[char];
     }
 
-    insert(word) {
-        let node = this.root;
-        for (let char of word) {
-            if (!node.children[char]) {
-                node.children[char] = new TrieNode(); 
-            }
+    node.endOfWord = true;
+  }
 
-            node = node.children[char];
-        }
+  search(word) {
+    let node = this.root;
 
-        node.endOfWord = true;
+    for (const char of word) {
+      if (!node.children[char]) {
+        return false;
+      }
+
+      node = node.children[char];
     }
 
-    search(word) {
-        let node = this.root;
-        for (let char of word) {
-            if (!node.children[char]) {
-                return false;
-            }
+    return node.endOfWord;
+  }
 
-            node = node.children[char];
-        }
+  startsWithPrefix(prefix) {
+    let node = this.root;
 
-        return node.endOfWord;
+    for (const char of prefix) {
+      if (!node.children[char]) {
+        return false;
+      }
+
+      node = node.children[char];
     }
+
+    return true;
+  }
+
+  searchPrefix(prefix) {
+    let node = this.root;
+
+    for (const char of prefix) {
+      if (!node.children[char]) return false;
+      node = node.children[char];
+    }
+
+    return node;
+  }
+
+  dfs(node, prefix, result) {
+    if (node.endOfWord) result.push(prefix);
+
+    for (const char in node.children) {
+      this.dfs(node.children[char], prefix + char, result);
+    }
+  }
+
+  autoComplete(prefix) {
+    const result = [];
+
+    const node = this.searchPrefix(prefix);
+    if (!node) return result;
+
+    this.dfs(node, prefix, result);
+
+    return result;
+  }
 }
 
-const trie1 = new Trie();
+const trie = new Trie();
 
-trie1.insert("Apple");
-trie1.insert("Orange");
-trie1.insert("Mango");
-trie1.insert("Banana");
+trie.insert("Apple");
+trie.insert("App");
+trie.insert("Ape");
+trie.insert("Orange");
+trie.insert("Owl");
 
-console.log(trie1.search("Apple"));
-console.log(trie1.search("Apples"));
-
-
-// 2. Prefix Matching:
-
-class TrieNode {
-    constructor() {
-        this.children = {};
-        this.endOfWord = false;
-    }
-}
-
-class Trie {
-    constructor() {
-        this.root = new TrieNode();
-    }
-
-    insert(word) {
-        let node = this.root;
-        for (let char of word) {
-            if (!node.children[char]) {
-                node.children[char] = new TrieNode(); 
-            }
-
-            node = node.children[char];
-        }
-
-        node.endOfWord = true;
-    }
-
-    startsWith(prefix) {
-        let node = this.root;
-        for (let char of prefix) {
-            if (!node.children[char]) {
-                return false;
-            }
-
-            node = node.children[char];
-        }
-
-        return true;
-    }
-}
-
-const trie2 = new Trie();
-
-trie2.insert("Apple");
-trie2.insert("Orange");
-trie2.insert("Mango");
-trie2.insert("Banana");
-
-console.log(trie2.startsWith("App"));
-console.log(trie2.startsWith("Ava"));
-
-
-// 3. Autocomplete Simulation:
-
-class TrieNode {
-    constructor() {
-        this.children = {};
-        this.endOfWord = false;
-    }
-}
-
-class Trie {
-    constructor() {
-        this.root = new TrieNode();
-    }
-
-    insert(word) {
-        let node = this.root;
-        for (let char of word) {
-            if (!node.children[char]) {
-                node.children[char] = new TrieNode(); 
-            }
-
-            node = node.children[char];
-        }
-
-        node.endOfWord = true;
-    }
-}
-
-class TrieWithAutoComplete extends Trie{
-    collectAllWords(node, prefix, results) {
-        if (node.endOfWord) {
-            results.push(prefix);
-        }
-
-        for (let char in node.children) {
-            this.collectAllWords(node.children[char], prefix + char, results);
-        }
-    }
-
-    autoComplete(prefix) {
-        let node = this.root;
-        for (let char of prefix) {
-            if (!node.children[char]) {
-                return [];
-            }
-
-            node = node.children[char];
-        }
-
-        const results = [];
-        this.collectAllWords(node, prefix, results);
-        return results;
-    }
-}
-
-const trie3 = new TrieWithAutoComplete();
-
-trie3.insert("Car");
-trie3.insert("Care");
-trie3.insert("Cart");
-trie3.insert("Card");
-trie3.insert("Cards");
-trie3.insert("Bike");
-trie3.insert("Bus");
-
-console.log(trie3.autoComplete("Car"));
+console.log(trie.search("Ape"));
+console.log(trie.search("Ant"));
+console.log(trie.startsWithPrefix("Oran"));
+console.log(trie.autoComplete("App"));
