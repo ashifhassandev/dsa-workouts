@@ -1,99 +1,99 @@
 class MaxHeap {
-	constructor() {
-		this.heap = [];
-	}
+  constructor() {
+    this.heap = [];
+  }
 
-	getParentIndex(i) {
-		return Math.floor((i - 1) / 2);
-	}
+  getParentIndex(i) {
+    return Math.floor((i - 1) / 2);
+  }
 
-	getLeftChildIndex(i) {
-		return 2 * i + 1;
-	}
+  getLeftChildIndex(i) {
+    return 2 * i + 1;
+  }
 
-	getRightChildIndex(i) {
-		return 2 * i + 2;
-	}
+  getRightChildIndex(i) {
+    return 2 * i + 2;
+  }
 
-	swap(i, j) {
-		[this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
-	}
+  swap(i, j) {
+    [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
+  }
 
-	insert(value) {
-		this.heap.push(value);
-		this.heapifyUp();
-	}
+  insert(value) {
+    this.heap.push(value);
+    this.heapifyUp();
+  }
 
-	heapifyUp() {
-		let index = this.heap.length - 1;
+  heapifyUp() {
+    let index = this.heap.length - 1;
 
-		while (
-			index > 0 &&
-			this.heap[this.getParentIndex(index)] < this.heap[index]
-		) {
-			this.swap(this.getParentIndex(index), index);
-			index = this.getParentIndex(index);
-		}
-	}
+    while (
+      index > 0 &&
+      this.heap[this.getParentIndex(index)] < this.heap[index]
+    ) {
+      this.swap(this.getParentIndex(index), index);
+      index = this.getParentIndex(index);
+    }
+  }
 
-	remove() {
-		if (this.heap.length === 0) {
-			console.log("Heap is empty.");
-			return null;
-		}
+  remove() {
+    if (this.heap.length === 0) {
+      console.log("Heap is empty.");
+      return null;
+    }
 
-		if (this.heap.length === 1) return this.heap.pop();
+    if (this.heap.length === 1) return this.heap.pop();
 
-		const root = this.heap[0];
-		this.heap[0] = this.heap.pop();
-		this.heapifyDown();
-		return root;
-	}
+    const root = this.heap[0];
+    this.heap[0] = this.heap.pop();
+    this.heapifyDown();
+    return root;
+  }
 
-	heapifyDown() {
-		let index = 0;
+  heapifyDown() {
+    let index = 0;
 
-		while (this.getLeftChildIndex(index) < this.heap.length) {
-			let largerChildIndex = this.getLeftChildIndex(index);
-			let rightChildIndex = this.getRightChildIndex(index);
+    while (this.getLeftChildIndex(index) < this.heap.length) {
+      let largerChildIndex = this.getLeftChildIndex(index);
+      let rightChildIndex = this.getRightChildIndex(index);
 
-			if (
-				rightChildIndex < this.heap.length &&
-				this.heap[rightChildIndex] > this.heap[largerChildIndex]
-			) {
-				largerChildIndex = rightChildIndex;
-			}
+      if (
+        rightChildIndex < this.heap.length &&
+        this.heap[rightChildIndex] > this.heap[largerChildIndex]
+      ) {
+        largerChildIndex = rightChildIndex;
+      }
 
-			if (this.heap[index] >= this.heap[largerChildIndex]) break;
+      if (this.heap[index] >= this.heap[largerChildIndex]) break;
 
-			this.swap(index, largerChildIndex);
-			index = largerChildIndex;
-		}
-	}
+      this.swap(index, largerChildIndex);
+      index = largerChildIndex;
+    }
+  }
 
-	removeValue(value) {
-		const index = this.heap.indexOf(value);
+  removeValue(value) {
+    const index = this.heap.indexOf(value);
 
-		if (index === -1) return null;
+    if (index === -1) return null;
 
-		this.heap[index] = this.heap[this.heap.length - 1];
-		this.heap.pop();
-		this.heapifyDown();
-		this.heapifyUp();
-	}
+    this.heap[index] = this.heap[this.heap.length - 1];
+    this.heap.pop();
+    this.heapifyDown();
+    this.heapifyUp();
+  }
 
-	peek() {
-		if (this.heap.length === 0) {
-			console.log("Heap is empty.");
-			return null;
-		}
+  peek() {
+    if (this.heap.length === 0) {
+      console.log("Heap is empty.");
+      return null;
+    }
 
-		return this.heap[0];
-	}
+    return this.heap[0];
+  }
 
-	print() {
-		console.log(this.heap);
-	}
+  print() {
+    console.log(this.heap);
+  }
 }
 
 const maxHeap = new MaxHeap();
