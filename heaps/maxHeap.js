@@ -50,6 +50,17 @@ class MaxHeap {
     return root;
   }
 
+  removeValue(value) {
+    const index = this.heap.indexOf(value);
+
+    if (index === -1) return null;
+
+    this.heap[index] = this.heap[this.heap.length - 1];
+    this.heap.pop();
+    this.heapifyDown();
+    this.heapifyUp();
+  }
+
   heapifyDown() {
     let index = 0;
 
@@ -69,17 +80,6 @@ class MaxHeap {
       this.swap(index, largerChildIndex);
       index = largerChildIndex;
     }
-  }
-
-  removeValue(value) {
-    const index = this.heap.indexOf(value);
-
-    if (index === -1) return null;
-
-    this.heap[index] = this.heap[this.heap.length - 1];
-    this.heap.pop();
-    this.heapifyDown();
-    this.heapifyUp();
   }
 
   peek() {
