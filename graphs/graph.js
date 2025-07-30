@@ -4,7 +4,9 @@ class Graph {
   }
 
   addVertex(vertex) {
-    if (!this.adjacencyList.has(vertex)) this.adjacencyList.set(vertex, []);
+    if (!this.adjacencyList.has(vertex)) {
+      this.adjacencyList.set(vertex, []);
+    }
   }
 
   addEdge(v1, v2) {
