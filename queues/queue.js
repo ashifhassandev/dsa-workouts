@@ -27,6 +27,7 @@ const findMaximumValue = (arr, k) => {
 
 console.log(findMaximumValue(nums, 3));
 
+
 // Implementation of Queue
 
 class Queue {
