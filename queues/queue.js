@@ -3,76 +3,75 @@
 const nums = [1, 3, -1, -3, 5, 3, 6, 7];
 
 const findMaximumValue = (arr, k) => {
-	const result = [];
-	const dequeue = [];
+  const result = [];
+  const dequeue = [];
 
-	for (let i = 0; i < arr.length; i++) {
-		if (dequeue.length > 0 && dequeue[0] <= i - k) {
-			dequeue.shift();
-		}
+  for (let i = 0; i < arr.length; i++) {
+    if (dequeue.length > 0 && dequeue[0] <= i - k) {
+      dequeue.shift();
+    }
 
-		while (dequeue.length > 0 && arr[dequeue[dequeue.length - 1]] <= arr[i]) {
-			dequeue.pop();
-		}
+    while (dequeue.length > 0 && arr[dequeue[dequeue.length - 1]] <= arr[i]) {
+      dequeue.pop();
+    }
 
-		dequeue.push(i);
+    dequeue.push(i);
 
-		if (i >= k - 1) {
-			result.push(arr[dequeue[0]]);
-		}
-	}
+    if (i >= k - 1) {
+      result.push(arr[dequeue[0]]);
+    }
+  }
 
-	return result;
+  return result;
 };
 
 console.log(findMaximumValue(nums, 3));
 
-
 // Implementation of Queue
 
 class Queue {
-	constructor() {
-		this.items = {};
-		this.front = 0;
-		this.rear = 0;
-	}
+  constructor() {
+    this.items = {};
+    this.front = 0;
+    this.rear = 0;
+  }
 
-	enqueue(item) {
-		this.items[this.rear] = item;
-		this.rear++;
-	}
+  enqueue(item) {
+    this.items[this.rear] = item;
+    this.rear++;
+  }
 
-	dequeue() {
-		if (this.isEmpty()) return null;
+  dequeue() {
+    if (this.isEmpty()) return null;
 
-		const item = this.items[this.front];
-		delete this.items[this.front];
-		this.front++;
+    const item = this.items[this.front];
+    delete this.items[this.front];
+    this.front++;
 
-		return item;
-	}
+    return item;
+  }
 
-	peek() {
-		return this.isEmpty() ? null : this.items[this.front];
-	}
+  peek() {
+    return this.isEmpty() ? null : this.items[this.front];
+  }
 
-	isEmpty() {
-		return this.front === this.rear;
-	}
+  isEmpty() {
+    return this.front === this.rear;
+  }
 
-	getSize() {
-		return this.rear - this.front;
-	}
+  getSize() {
+    return this.rear - this.front;
+  }
 
-	print() {
-		const result = [];
+  print() {
+    const result = [];
 
-		for (let i = this.front; i < this.rear; i++) {
-			result.push(this.items[i]);
-		}
+    for (let i = this.front; i < this.rear; i++) {
+      result.push(this.items[i]);
+    }
 
-		console.log(result.join(" <- "));
-	}
+    console.log(result.join(" <- "));
+  }
 }
 
 const queue = new Queue();
