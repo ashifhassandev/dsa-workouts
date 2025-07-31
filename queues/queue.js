@@ -1,128 +1,98 @@
-// 1. First Non-repeating Character in a Stream:
+// Given an array nums and a sliding window size k, find the maximum value in each sliding window of size k:
 
-const firstNonRepeatingCharacter = (stream) => {
-    const queue = [];
-    const charCount = {};
+const nums = [1, 3, -1, -3, 5, 3, 6, 7];
 
-    for (let char of stream) {
-        charCount[char] = (charCount[char] || 0) + 1;
-        queue.push(char);
-    }
+const findMaximumValue = (arr, k) => {
+	const result = [];
+	const dequeue = [];
 
-    while (queue.length > 0 && charCount[queue[0]] > 1) {
-        queue.shift();
-    }
+	for (let i = 0; i < arr.length; i++) {
+		if (dequeue.length > 0 && dequeue[0] <= i - k) {
+			dequeue.shift();
+		}
 
-    if (queue.length > 0) {
-        return queue[0];
-    } else {
-        return 'No non repeating characters found.';
-    }
+		while (dequeue.length > 0 && arr[dequeue[dequeue.length - 1]] <= arr[i]) {
+			dequeue.pop();
+		}
+
+		dequeue.push(i);
+
+		if (i >= k - 1) {
+			result.push(arr[dequeue[0]]);
+		}
+	}
+
+	return result;
 };
 
-console.log(firstNonRepeatingCharacter('aabbccdeef'));
+console.log(findMaximumValue(nums, 3));
 
 
-// 2. Circular Queue Implementation:
+// Implementation of Queue
 
-class CircularQueue {
-    constructor(size) {
-        this.queue = new Array(size).fill(null);
-        this.size = size;
-        this.front = -1;
-        this.rear = -1;
-    }
+class Queue {
+	constructor() {
+		this.items = {};
+		this.front = 0;
+		this.rear = 0;
+	}
 
-    enqueue(value) {
-        if ((this.rear + 1) % this.size === this.front) {
-            console.log('Queue is full.');
-            return;
-        }
+	enqueue(item) {
+		this.items[this.rear] = item;
+		this.rear++;
+	}
 
-        if (this.front === -1) {
-            this.front = 0;
-        }
+	dequeue() {
+		if (this.isEmpty()) return null;
 
-        this.rear = (this.rear + 1) % this.size;
-        this.queue[this.rear] = value;
-    }
+		const item = this.items[this.front];
+		delete this.items[this.front];
+		this.front++;
 
-    dequeue() {
-        if (this.front === -1) {
-            console.log('Queue is empty.');
-            return;
-        }
+		return item;
+	}
 
-        const dequeuedValue = this.queue[this.front];
-        this.queue[this.front] = null;
+	peek() {
+		return this.isEmpty() ? null : this.items[this.front];
+	}
 
-        if (this.front === this.rear) {
-            this.front = this.rear = -1;
-        } else {
-            this.front = (this.front + 1) % this.size;
-        }
+	isEmpty() {
+		return this.front === this.rear;
+	}
 
-        return dequeuedValue;
-    }
+	getSize() {
+		return this.rear - this.front;
+	}
 
-    isEmpty() {
-        return this.front === -1;
-    }
+	print() {
+		const result = [];
 
-    peek() {
-        if (this.front === -1) {
-            console.log('Queue is empty.');
-            return;
-        } else {
-            return this.queue[this.front];
-        }
-    }
+		for (let i = this.front; i < this.rear; i++) {
+			result.push(this.items[i]);
+		}
 
-    display() {
-        console.log('Queue:', this.queue);
-    }
-};
+		console.log(result.join(" <- "));
+	}
+}
 
-const circularQueue = new CircularQueue(5);
+const queue = new Queue();
 
-circularQueue.enqueue(10);
-circularQueue.enqueue(20);
-circularQueue.enqueue(30);
-circularQueue.enqueue(40);
-circularQueue.enqueue(50);
+queue.enqueue(10);
+queue.enqueue(5);
+queue.enqueue(15);
+queue.enqueue(25);
+queue.enqueue(20);
 
-console.log('Element removed from the front:', circularQueue.dequeue());
+queue.print();
 
-console.log('Is the queue empty:', circularQueue.isEmpty());
+console.log(queue.getSize());
 
-circularQueue.display();
+console.log(queue.peek());
 
+console.log(queue.dequeue());
 
-// 3. Given an array nums and a sliding window size k, find the maximum value in each sliding window of size k:
+queue.print();
 
-const array = [1, 3, -1, -3, 5, 3, 6, 7];
+console.log(queue.getSize());
 
-const findMaximumValue = (nums, k) => {
-    const result = [];
-    const dequeue = [];
-
-    for (let i = 0; i < nums.length; i++) {
-        if (dequeue.length > 0 && dequeue[0] <= i - k) {
-            dequeue.shift();
-        }
-
-        while (dequeue.length > 0 && nums[dequeue[dequeue.length - 1]] <= nums[i]) {
-            dequeue.pop();
-        }
-
-        dequeue.push(i);
-
-        if (i >= k - 1) {
-            result.push(nums[dequeue[0]]);
-        }
-    }
-
-    return result;
-};
-
-console.log(findMaximumValue(array, 3));
+console.log(queue.isEmpty());
