@@ -30,10 +30,7 @@ class Trie {
     let node = this.root;
 
     for (const char of word) {
-      if (!node.children[char]) {
-        return false;
-      }
-
+      if (!node.children[char]) return false;
       node = node.children[char];
     }
 
@@ -44,10 +41,7 @@ class Trie {
     let node = this.root;
 
     for (const char of prefix) {
-      if (!node.children[char]) {
-        return false;
-      }
-
+      if (!node.children[char]) return false;
       node = node.children[char];
     }
 
