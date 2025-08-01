@@ -64,9 +64,7 @@ class LinkedList {
   }
 
   insertNode(value, index) {
-    if (index < 0 || index > this.size) {
-      return;
-    }
+    if (index < 0 || index > this.size) return;
 
     if (index === 0) {
       this.prepend();
@@ -85,9 +83,7 @@ class LinkedList {
   }
 
   removeFromIndex(index) {
-    if (index < 0 || index > this.size) {
-      return;
-    }
+    if (index < 0 || index > this.size) return;
 
     let removedNode;
 
@@ -109,9 +105,7 @@ class LinkedList {
   }
 
   removeValue(value) {
-    if (this.isEmpty()) {
-      return;
-    }
+    if (this.isEmpty()) return;
 
     if (this.head.value === value) {
       this.head = this.head.next;
