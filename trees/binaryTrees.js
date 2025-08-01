@@ -110,6 +110,7 @@ class BinaryTree {
   countLeafNodes(node = this.root) {
     if (!node) return 0;
     if (!node.left && !node.right) return 1;
+
     return this.countLeafNodes(node.left) + this.countLeafNodes(node.right);
   }
 
@@ -124,7 +125,9 @@ class BinaryTree {
     while (queue.length > 0) {
       let node = queue.shift();
 
-      if (node.value === value) nodeTodelete = node;
+      if (node.value === value) {
+        nodeTodelete = node;
+      }
 
       if (node.left) {
         parentOfLastNode = node;
