@@ -28,6 +28,31 @@ const findMaximumValue = (arr, k) => {
 console.log(findMaximumValue(nums, 3));
 
 
+// First Non-repeating Character in a Stream:
+
+const firstNonRepeatingCharacter = (stream) => {
+  const queue = [];
+  const charCount = {};
+
+  for (let char of stream) {
+    charCount[char] = (charCount[char] || 0) + 1;
+    queue.push(char);
+  }
+
+  while (queue.length > 0 && charCount[queue[0]] > 1) {
+    queue.shift();
+  }
+
+  if (queue.length > 0) {
+    return queue[0];
+  } else {
+    return "No non repeating characters found.";
+  }
+};
+
+console.log(firstNonRepeatingCharacter("aabbccdeef"));
+
+
 // Implementation of Queue
 
 class Queue {
