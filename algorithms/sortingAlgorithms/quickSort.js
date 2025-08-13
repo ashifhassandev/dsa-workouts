@@ -1,4 +1,4 @@
-let array = [
+const arr1 = [
   33, 3, 112, 5, 50, 25, 9, 43, 7, 13, 22, 15, 40, 11, 28, 17, 45, 37, 119, 46,
 ];
 
@@ -20,5 +20,5 @@ const quickSort = (arr) => {
   return [...quickSort(left), pivot, ...quickSort(right)];
 };
 
-const result = quickSort(array);
+const result = quickSort(arr1);
 console.log(result);
