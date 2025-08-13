@@ -1,4 +1,4 @@
-let array = [
+const arr1 = [
   33, 3, 112, 5, 50, 25, 9, 43, 7, 13, 22, 15, 40, 11, 28, 17, 45, 37, 119, 46,
 ];
 
@@ -28,5 +28,5 @@ const merge = (left, right) => {
   return result.concat(left.slice(i)).concat(right.slice(j));
 };
 
-const result = mergeSort(array);
+const result = mergeSort(arr1);
 console.log(result);
