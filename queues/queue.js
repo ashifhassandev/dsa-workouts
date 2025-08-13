@@ -28,7 +28,7 @@ const findMaximumValue = (arr, k) => {
 console.log(findMaximumValue(nums, 3));
 
 
-// First Non-repeating Character in a Stream:
+// First Non-repeating Character in a Stream(no need to use queue if we are using Map):
 
 const firstNonRepeatingCharacter = (stream) => {
   const queue = [];
