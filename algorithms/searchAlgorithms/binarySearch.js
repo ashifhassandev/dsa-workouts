@@ -7,7 +7,7 @@ const binarySearch = (arr, target) => {
   let right = arr.length - 1;
 
   while (left <= right) {
-    let mid = Math.floor((left + right) / 2);
+    const mid = Math.floor((left + right) / 2);
 
     if (arr[mid] === target) {
       return mid;
@@ -21,5 +21,5 @@ const binarySearch = (arr, target) => {
   return -1;
 };
 
-const result = binarySearch(sortedArr, 15);
+const result = binarySearch(sortedArr, 33);
 console.log(result);
