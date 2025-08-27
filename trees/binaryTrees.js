@@ -40,42 +40,51 @@ class BinaryTree {
     }
   }
 
-  preOrderTraversal(node = this.root) {
+  preOrderTraversal(node = this.root, result = []) {
     if (!node) return;
 
-    console.log(node.value);
-    this.preOrderTraversal(node.left);
-    this.preOrderTraversal(node.right);
+    result.push(node.value);
+    this.preOrderTraversal(node.left, result);
+    this.preOrderTraversal(node.right, result);
+
+    return result;
   }
 
-  inOrderTraversal(node = this.root) {
+  inOrderTraversal(node = this.root, result = []) {
     if (!node) return;
 
     this.inOrderTraversal(node.left);
-    console.log(node.value);
+    result.push(node.value);
     this.inOrderTraversal(node.right);
+
+    return result;
   }
 
-  postOrderTraversal(node = this.root) {
+  postOrderTraversal(node = this.root, result = []) {
     if (!node) return;
 
     this.postOrderTraversal(node.left);
     this.postOrderTraversal(node.right);
-    console.log(node.value);
+    result.push(node.value);
+
+    return result;
   }
 
   levelOrderTraversal() {
     if (!this.root) return;
 
+    const result = [];
     const queue = [this.root];
 
     while (queue.length > 0) {
       const current = queue.shift();
-      console.log(current.value);
+      result.push(current.value);
 
       if (current.left) queue.push(current.left);
       if (current.right) queue.push(current.right);
     }
+
+    return result;
   }
 
   searchValue(value) {
@@ -118,7 +127,7 @@ class BinaryTree {
     if (!this.root) return null;
 
     const queue = [this.root];
-    let nodeTodelete = null;
+    let nodeToDelete = null;
     let lastNode = null;
     let parentOfLastNode = null;
 
@@ -126,7 +135,7 @@ class BinaryTree {
       const current = queue.shift();
 
       if (current.value === value) {
-        nodeTodelete = current;
+        nodeToDelete = current;
       }
 
       if (current.left) {
@@ -142,8 +151,13 @@ class BinaryTree {
       lastNode = current;
     }
 
-    if (nodeTodelete && lastNode) {
-      nodeTodelete.value = lastNode.value;
+    if (nodeToDelete && lastNode) {
+      nodeToDelete.value = lastNode.value;
+
+      if (!parentOfLastNode) {
+        this.root = null;
+        return;
+      }
 
       if (parentOfLastNode.left === lastNode) {
         parentOfLastNode.left = null;
@@ -164,9 +178,9 @@ binaryTree.insertLevelOrder(20);
 binaryTree.insertLevelOrder(25);
 binaryTree.insertLevelOrder(10);
 
-binaryTree.preOrderTraversal();
+console.log(binaryTree.preOrderTraversal());
 
-binaryTree.levelOrderTraversal();
+console.log(binaryTree.levelOrderTraversal());
 
 console.log(binaryTree.searchValue(20));
 console.log(binaryTree.searchValue(40));
@@ -179,4 +193,4 @@ console.log(binaryTree.countLeafNodes());
 
 binaryTree.deleteNode(25);
 
-binaryTree.levelOrderTraversal();
+console.log(binaryTree.levelOrderTraversal());
