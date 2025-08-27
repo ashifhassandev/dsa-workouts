@@ -50,7 +50,7 @@ class BST {
   }
 
   inOrderTraversal(node = this.root, result = []) {
-    if (!node) return;
+    if (!node) return result;
 
     this.inOrderTraversal(node.left, result);
     result.push(node.value);
