@@ -117,29 +117,29 @@ class BinaryTree {
   deleteNode(value) {
     if (!this.root) return null;
 
-    let queue = [this.root];
+    const queue = [this.root];
     let nodeTodelete = null;
     let lastNode = null;
     let parentOfLastNode = null;
 
     while (queue.length > 0) {
-      let node = queue.shift();
+      const current = queue.shift();
 
-      if (node.value === value) {
-        nodeTodelete = node;
+      if (current.value === value) {
+        nodeTodelete = current;
       }
 
-      if (node.left) {
-        parentOfLastNode = node;
-        queue.push(node.left);
+      if (current.left) {
+        parentOfLastNode = current;
+        queue.push(current.left);
       }
 
-      if (node.right) {
-        parentOfLastNode = node;
-        queue.push(node.right);
+      if (current.right) {
+        parentOfLastNode = current;
+        queue.push(current.right);
       }
 
-      lastNode = node;
+      lastNode = current;
     }
 
     if (nodeTodelete && lastNode) {
