@@ -41,7 +41,7 @@ class BinaryTree {
   }
 
   preOrderTraversal(node = this.root, result = []) {
-    if (!node) return;
+    if (!node) return result;
 
     result.push(node.value);
     this.preOrderTraversal(node.left, result);
@@ -51,7 +51,7 @@ class BinaryTree {
   }
 
   inOrderTraversal(node = this.root, result = []) {
-    if (!node) return;
+    if (!node) return result;
 
     this.inOrderTraversal(node.left, result);
     result.push(node.value);
@@ -61,7 +61,7 @@ class BinaryTree {
   }
 
   postOrderTraversal(node = this.root, result = []) {
-    if (!node) return;
+    if (!node) return result;
 
     this.postOrderTraversal(node.left, result);
     this.postOrderTraversal(node.right, result);
