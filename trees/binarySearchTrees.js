@@ -39,20 +39,22 @@ class BST {
     }
   }
 
-  inOrderTraversal(node = this.root) {
-    if (!node) return;
-
-    console.log(node.value);
-    this.inOrderTraversal(node.left);
-    this.inOrderTraversal(node.right);
-  }
-
   preOrderTraversal(node = this.root, result = []) {
     if (!node) return result;
 
     result.push(node.value);
     this.preOrderTraversal(node.left, result);
     this.preOrderTraversal(node.right, result);
+
+    return result;
+  }
+
+  inOrderTraversal(node = this.root, result = []) {
+    if (!node) return;
+
+    this.inOrderTraversal(node.left, result);
+    result.push(node.value);
+    this.inOrderTraversal(node.right, result);
 
     return result;
   }
